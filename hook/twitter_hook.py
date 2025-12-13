@@ -102,7 +102,7 @@ if __name__ == "__main__":
     TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.00Z"
 
     end_time = datetime.now().strftime(TIMESTAMP_FORMAT)
-    start_time = (datetime.now() +      timedelta(-1)).date().strftime(TIMESTAMP_FORMAT)   
+    start_time = (datetime.now() + timedelta(-1)).date().strftime(TIMESTAMP_FORMAT)   
     query = "datascience"
     # Para facilitar testes locais, definimos a variável de ambiente
     # AIRFLOW_CONN_TWITTER_DEFAULT aqui antes de instanciar a hook.

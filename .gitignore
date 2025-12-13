@@ -1,3 +1,5 @@
 logs/
 *.generated
 airflow.db*
+data/
+__pycache__/
