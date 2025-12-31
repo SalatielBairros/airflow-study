@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 start_date = pendulum.datetime(2025, 12, 1, tz="UTC")
 weekly_interval = "0 0 * * 1"
-base_filepath = '/Users/salatiel/airflow/tempo/semana='
+base_filepath = '/Users/salatiel/airflow/data/tempo/semana='
 
 with DAG(
     dag_id='dados_climaticos',
