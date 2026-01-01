@@ -2,8 +2,6 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql import functions as F
 import argparse
 
-BASE_PATH = "data/weather/bronze"
-
 def __get_used_stations__(df: DataFrame) -> DataFrame:
     station_names = df.select("stations.*").columns
 
@@ -27,8 +25,9 @@ def __get_location_data__(df: DataFrame):
                 })
                 .first())
 
-def get_stations(df: DataFrame) -> DataFrame:    
-    return __get_used_stations__(df).select(['id', 'latitude', 'longitude', 'name'])
+def get_stations(df: DataFrame) -> DataFrame:
+    processed_date = __get_processed_date__(df)    
+    return __get_used_stations__(df).select(['id', 'latitude', 'longitude', 'name']).withColumn('processed_date', F.lit(processed_date))
 
 def get_station_quality(df: DataFrame):
     processed_date = __get_processed_date__(df)
@@ -80,7 +79,8 @@ def transform(spark: SparkSession, input_path: str, output_path: str):
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Weather Bronze Transformations")
-    parser.add_argument("--input_file", type=str, required=True, help="File name to be processed from the extraction layer")
+    parser.add_argument("--src", type=str, required=True, help="Path to the input JSON file")
+    parser.add_argument("--dest", type=str, required=True, help="Path to the input JSON file")
     args = parser.parse_args()
 
     spark = (SparkSession
@@ -90,5 +90,5 @@ if __name__ == "__main__":
     
     transform(
         spark, 
-        input_path=f"../data/weather/extraction/{args.input_file}",
-        output_path=f"../{BASE_PATH}",)
+        input_path=args.src,
+        output_path=args.dest,)
